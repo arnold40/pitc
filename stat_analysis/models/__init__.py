@@ -12,4 +12,4 @@ OrderReportResult and JobReportResult models.
 """
 
 from .report import Report
-from .statistics import JobReportResult, OrderReportResult
+from .statistics import JobReportResult, OrderReportResult, UserReportResult

@@ -12,6 +12,7 @@ class Customer(models.Model):
         null=True,
         related_name='customers'
     )
+    created_at = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return self.name
@@ -79,4 +80,7 @@ class Order(models.Model):
                 check=~models.Q(account_manager=None),
                 name="order_requires_account_manager"
             )
+        ]
+        permissions = [
+            ("view_own_orders", "Can view orders managed by the account manager"),
         ]

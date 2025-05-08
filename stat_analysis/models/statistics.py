@@ -33,3 +33,30 @@ class OrderReportResult(models.Model):
     total_orders = models.IntegerField()
     total_revenue = models.DecimalField(max_digits=10, decimal_places=2)
     average_order_value = models.DecimalField(max_digits=10, decimal_places=2)
+
+    orders_per_service_provider = models.JSONField(null=True, blank=True,
+                                                   help_text="Distribution of orders across service providers")
+    orders_per_account_manager = models.JSONField(null=True, blank=True,
+                                                  help_text="Distribution of orders across account managers")
+
+
+class UserReportResult(models.Model):
+    """Model to store analysis results for Users (Customers and Account Managers).
+
+    This provides insights into user activity and performance.
+    """
+    report = models.OneToOneField(Report, on_delete=models.CASCADE)
+
+    # Customer statistics
+    total_customers = models.IntegerField(default=0)
+    new_customers = models.IntegerField(default=0, help_text="New customers in the reporting period")
+
+    # Account manager statistics
+    total_account_managers = models.IntegerField(default=0)
+    top_performing_managers = models.JSONField(null=True, blank=True,
+                                               help_text="Top account managers by order value")
+
+    # Activity metrics
+    customers_with_orders = models.IntegerField(default=0,
+                                                help_text="Customers who placed at least one order")
+    avg_orders_per_customer = models.FloatField(default=0.0)
