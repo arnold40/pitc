@@ -1,3 +1,3 @@
 .idea/
-.reports/
-.db.sqlite3
+reports/
+db.sqlite3
