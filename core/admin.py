@@ -8,6 +8,11 @@ class CustomerAdmin(admin.ModelAdmin):
     list_filter = ('created_by',)
     search_fields = ('name',)
 
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == 'created_by':
+            kwargs["queryset"] = AccountManager.objects.all().select_related('user')
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
 
 @admin.register(AccountManager)
 class AccountManagerAdmin(admin.ModelAdmin):

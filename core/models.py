@@ -23,7 +23,10 @@ class AccountManager(models.Model):
     service_providers = models.ManyToManyField('ServiceProvider', related_name='account_managers')
 
     def __str__(self):
-        return self.user.get_full_name()
+        name = self.user.get_full_name()
+        if name:
+            return f"{name} ({self.user.username})"
+        return self.user.username
 
 
 class ServiceProvider(models.Model):
