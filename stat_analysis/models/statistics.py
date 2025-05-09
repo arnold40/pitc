@@ -14,7 +14,6 @@ class JobReportResult(models.Model):
     report = models.OneToOneField(Report, on_delete=models.CASCADE)
     total_jobs = models.IntegerField()
 
-    # New fields
     avg_completion_time_regular = models.FloatField(null=True, blank=True)
     avg_completion_time_wafer_run = models.FloatField(null=True, blank=True)
     num_created = models.IntegerField(default=0)
