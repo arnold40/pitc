@@ -66,6 +66,7 @@ class Order(models.Model):
         return f"Order #{self.id} by {self.customer.name}"
 
     def clean(self):
+        super().clean()
         # Custom validation: all services must be from providers managed by this order's account manager
         from django.core.exceptions import ValidationError
 
@@ -73,7 +74,11 @@ class Order(models.Model):
             return  # Skip validation on unsaved instance
 
         allowed_providers = set(self.account_manager.service_providers.values_list('id', flat=True))
+        print(self.account_manager)
+        print(allowed_providers)
         for service in self.services.all():
+            print(service.name)
+            print(service.provider_id)
             if service.provider_id not in allowed_providers:
                 raise ValidationError(f"Service '{service.name}' from provider '{service.provider.name}' is not allowed.")
 

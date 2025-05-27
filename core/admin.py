@@ -56,6 +56,15 @@ class OrderAdmin(admin.ModelAdmin):
     exclude = ('services',)
     inlines = [ServiceInline]
 
+    def save_model(self, request, obj, form, change):
+        # First save the order without M2M to ensure it has a PK
+        super().save_model(request, obj, form, change)
+
+        # Clear existing services and set new ones
+        if 'services' in form.cleaned_data:
+            obj.services.clear()
+            obj.services.set(form.cleaned_data['services'])
+
     def get_total_price(self, obj):
         return sum(service.price for service in obj.services.all())
 
